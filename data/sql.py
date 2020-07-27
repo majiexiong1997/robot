@@ -10,7 +10,7 @@ class db_connect:
     '''数据库连接'''
     game_connect = False
 
-    def __init__(self):
+    def connect(self):
         self.game_connect = False
         self.config = config_table
         try:
@@ -46,17 +46,7 @@ class db_connect:
             print("查询数据失败{}".format(e))
             self.db.rollback()
 
-    def create_robot(self, id , account, password):
-        md5 = hashlib.md5()
-        md5.update(password)
-        str_password = md5.hexdigest()
-        try:
-            sql = 'INSERT INTO account(id,account,password,gm) values(%d,%s,%s,1000)'.format(id, account, str_password)
-            self.cursor.execute(sql)
-            self.db.commit()
-        except Exception as e:
-            LOG.error('dawdawrfaf')
-            self.db.rollback()
+
 
 
     def create_robot_account(self,account,password):
