@@ -1,11 +1,17 @@
 from config.yaml_loding import *
 from config.robot_config import *
-from data.sql import db_connect
+from data.mysql_db import db_connect
 from log.test_log import *
 from game.login_module import *
+from timeit import timeit
 
 
 class robot(db_connect):
+    '''机器人实例
+        account_list 账号列表
+        password_list 密码列表
+        robot_list 机器人列表
+    '''
     account_list = []
     password_list = []
     robot_list = []
@@ -122,10 +128,16 @@ class robot(db_connect):
                     print('当前账号已退出')
             except:
                 pass
+    def robot_start_action(self):
+        '''机器人开始行为'''
 
+
+    def robot_stop_action(self):
+        '''机器人停止行为'''
 
 if __name__ == '__main__':
     robot = robot()
+
     robot.robot_start()
     print(robot.robot_list)
     robot.robot_stop()
