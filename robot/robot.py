@@ -4,6 +4,7 @@ from data.mysql_db import db_connect
 from log.test_log import *
 from game.login_module import *
 from timeit import timeit
+from config.frame_config import *
 
 
 class robot(db_connect):
@@ -128,17 +129,68 @@ class robot(db_connect):
                     print('当前账号已退出')
             except:
                 pass
+    def robot_remove(self):
+        '''
+        移除指定机器人
+        :return:
+        '''
+        remove_index = int(input('输入需要删除的机器人')) - 1
+        self.robot_list.pop(remove_index)
+        return self.robot_list
+    def robot_clear(self):
+        '''
+        删除所有机器人
+        :return:
+        '''
+        return self.robot_list.clear()
+
+    def get_action(self):
+        '''
+        获取需要的行动
+        :return:
+        '''
+        need_action = input('输入需要控制行为')
+        for i,j in action_event.items():
+
+            if need_action == i:
+                return need_action
+            else:
+                return LOG.error('找不到这个行为动作 >> {}'.format(need_action))
+
+
+
+
+
+
+
+
     def robot_start_action(self):
         '''机器人开始行为'''
+        for robot in self.robot_list:
+            if not robot['is_new']:
+                robot['action_now'] = action_type['start_script']
+
 
 
     def robot_stop_action(self):
         '''机器人停止行为'''
+        for robot in self.robot_list:
+            if not robot['is_new']:
+                robot['action_now'] = action_type['action_end_script']
+
 
 if __name__ == '__main__':
     robot = robot()
 
-    robot.robot_start()
-    print(robot.robot_list)
-    robot.robot_stop()
-    print(robot.robot_list)
+    # robot.robot_start()
+    # print(robot.robot_list)
+    # robot.robot_start_action()
+    # print(robot.robot_list)
+    # robot.robot_stop_action()
+    # print(robot.robot_list)
+    # robot.get_action()
+    a = robot.get_action()
+    print(a)
+
+
+

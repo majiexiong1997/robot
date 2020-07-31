@@ -1,13 +1,9 @@
 
-timer_type = {
 
-    'step': 1,  # 步骤定时
-    'action': 2,  # 行为超时定时
-    'sleep': 3,
-    'release_timer': 4,
-
-}
 '''操作结果'''
+
+
+
 action_result = {
     'success': 1,
     'step_done': 2,
@@ -23,6 +19,11 @@ action_event = {
     'step_time_out': 4
 
 }
+
+'''当前行为状态'''
 action_type = {
-    'login_script':1,
+    'start_script':1,
+    'continue_action':2,
+    'action_end_script':3,
+
 }

@@ -37,7 +37,6 @@ class SocketClient():
         except:
             pass
 
-
     def broken_link(self):
         '''断开链接'''
         if self.connect:
