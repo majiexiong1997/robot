@@ -27,3 +27,9 @@ action_type = {
     'action_end_script':3,
 
 }
+
+
+module_type = {
+    'test1':1,
+    'test2':2,
+}
