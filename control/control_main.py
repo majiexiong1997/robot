@@ -2,20 +2,47 @@
 
 
 
+import sys
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QToolTip, QDesktopWidget, QMessageBox
+from PyQt5.QtGui import QIcon, QFont
 
 
-class control_main:
+class Example(QWidget):
+
     def __init__(self):
-        pass
+        super().__init__()
 
-    def start(self):
-        pass
+        self.initUI()  # 界面绘制交给InitUi方法
 
-    def stop(self):
-        pass
+    def initUI(self):
 
-    def pause(self):
-        pass
+        self.resize(300,100)
+        self.center()
+        self.setWindowTitle('robot')
+        self.show()
 
-    def again(self):
-        pass
+    def closeEvent(self,event):
+        #重写closeevent()
+        reply = QMessageBox.question(self, 'Message',
+                                     "Are you sure to quit?", QMessageBox.Yes |
+                                     QMessageBox.No, QMessageBox.No)
+        #判断按键后续操作
+        if reply == QMessageBox.Yes:
+            event.accept()
+        else:
+            event.ignore()
+
+    def center(self):
+        #获取窗口
+        qr = self.frameGeometry()
+        #获得屏幕中心点
+        cp = QDesktopWidget().availableGeometry().center()
+        #显示到屏幕中心
+        qr.moveCenter(cp)
+        self.move(qr.topLeft())
+
+
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    ex = Example()
+    sys.exit(app.exec_())

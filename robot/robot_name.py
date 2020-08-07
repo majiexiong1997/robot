@@ -5,6 +5,7 @@ from log.test_log import *
 from game.login_module import *
 from timeit import timeit
 from config.frame_config import *
+from robot.timer import *
 
 
 class Robot(db_connect):
@@ -43,8 +44,8 @@ class Robot(db_connect):
 
         }
         '''机器人行为'''
-        self.action_type = 0  #行为类型
-        self.action_step = 0  #当前行为步骤
+        self.action_type = 0  # 行为类型
+        self.action_step = 0  # 当前行为步骤
         self.module_step = 0
 
     def __len__(self):
@@ -102,12 +103,27 @@ class Robot(db_connect):
                     test['m_account'] = self.account_list[i]
                     test['m_password'] = self.password_list[i]
                     self.robot_list.append(test)
+
+
         except:
             print('未知异常')
 
-    def create_robot_account(self, account, password):
-        pass
-
+    def create_robot_account1(self):
+        '''
+        创建机器人账号
+        :return:
+        '''
+        start_index, end_index = self.on_robot()
+        r = read_robot().yaml_load('./config/robot_list.yml')
+        print(r)
+        for i in range(start_index, end_index):
+            account = 'admin' + str(i)
+            password = 'test' + str(i)
+            set_dict = {
+                'robot{}'.format(i):
+                    [account, password]
+            }
+            read_robot().yaml_write('./config/robot_list.yml', set_dict)
 
     def robot_start(self):
         '''启动机器人'''
@@ -137,6 +153,7 @@ class Robot(db_connect):
                     print('当前账号已退出')
             except:
                 pass
+
     def robot_remove(self):
         '''
         移除指定机器人
@@ -145,6 +162,7 @@ class Robot(db_connect):
         remove_index = int(input('输入需要删除的机器人')) - 1
         self.robot_list.pop(remove_index)
         return self.robot_list
+
     def robot_clear(self):
         '''
         删除所有机器人
@@ -152,8 +170,7 @@ class Robot(db_connect):
         '''
         return self.robot_list.clear()
 
-
-
+    @fuc_timer
     def robot_start_action(self):
         '''机器人开始行为'''
         self.robot_start()
@@ -162,7 +179,6 @@ class Robot(db_connect):
             if not robot['is_new']:
                 robot['action_now'] = action_type['start_script']
         print(self.robot_list)
-
 
     def robot_stop_action(self):
         '''机器人停止行为'''
@@ -182,22 +198,28 @@ class Robot(db_connect):
         for robot in self.robot_list:
             if not robot['is_new']:
                 robot['module_now'] = action_type['end_module']
+    def change_time(self,t):
+        '''转换时间类型'''
+        t = int(t)
+        return t
 
 
 
 
 if __name__ == '__main__':
-
-
     # robot.robot_start()
     # print(robot.robot_list)
     # robot.robot_start_action()
     # print(robot.robot_list)
     # robot.robot_stop_action()
     # print(robot.robot_list)
-    Robot().robot_start_action()
 
-
-
-
-
+    a,t = Robot().robot_start_action()
+    print(type(t))
+    t = int(t)
+    print(type(t))
+    print(t)
+    if t > 60:
+        print('大于60')
+    else:
+        print('小于60')

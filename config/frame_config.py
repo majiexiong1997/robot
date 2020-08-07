@@ -1,9 +1,6 @@
 
 
 '''操作结果'''
-
-
-
 action_result = {
     'success': 1,
     'step_done': 2,
@@ -11,6 +8,7 @@ action_result = {
     'action_done': 4,
     "step_time_out": 5,
 }
+
 '''事件定义'''
 action_event = {
     'switch_module_step': 1,
